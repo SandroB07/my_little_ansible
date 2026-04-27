@@ -1,0 +1,27 @@
+# user module — create or remove local user accounts.
+
+tasks:
+  - name: create a deploy user with a home directory
+    module: user
+    become: true
+    params:
+      name: deploy
+      shell: /bin/bash
+      create_home: true
+
+  - name: create a system user for a daemon (no shell, no home)
+    module: user
+    become: true
+    params:
+      name: web
+      system: true
+      shell: /usr/sbin/nologin
+      create_home: false
+
+  - name: remove a legacy account and delete its home
+    module: user
+    become: true
+    params:
+      name: legacy
+      state: absent
+      remove_home: true

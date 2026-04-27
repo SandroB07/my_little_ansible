@@ -1,0 +1,89 @@
+tasks:
+  - name: say hello
+    module: debug
+    params:
+      msg: starting MyLittleAnsible run
+
+  - name: install nginx
+    module: apt
+    become: true
+    params:
+      name: nginx
+      state: present
+
+  - name: ensure web root exists
+    module: file
+    become: true
+    params:
+      path: /var/www/public
+      state: directory
+      mode: "0755"
+      owner: www-data
+      group: www-data
+
+  - name: deploy static assets
+    module: copy
+    become: true
+    notify: reload nginx
+    params:
+      src: ./examples/public
+      dest: /var/www/public
+      backup: true
+
+  - name: render site config
+    module: template
+    become: true
+    notify: reload nginx
+    params:
+      src: ./examples/default.conf.j2
+      dest: /etc/nginx/sites-enabled/default
+      vars:
+        server_name: example.com
+        root_dir: /var/www/public
+
+  - name: ensure a marker line in /etc/motd
+    module: lineinfile
+    become: true
+    params:
+      path: /etc/motd
+      line: Managed by MyLittleAnsible
+      state: present
+      create: true
+
+  - name: enable ip forwarding
+    module: sysctl
+    become: true
+    params:
+      attribute: net.ipv4.ip_forward
+      value: 1
+      permanent: true
+
+  - name: create deploy user
+    module: user
+    become: true
+    params:
+      name: deploy
+      shell: /bin/bash
+      system: false
+
+  - name: ensure nginx is enabled
+    module: service
+    become: true
+    params:
+      name: nginx
+      state: enabled
+
+  - name: ensure nginx is running
+    module: service
+    become: true
+    params:
+      name: nginx
+      state: started
+
+handlers:
+  - name: reload nginx
+    module: service
+    become: true
+    params:
+      name: nginx
+      state: restarted

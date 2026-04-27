@@ -1,0 +1,14 @@
+# Inventory for the local Docker sandbox (see sandbox/).
+#
+# Spin it up first with:
+#   ./sandbox/setup.sh
+#
+# Then run any playbook against it, e.g.:
+#   python -m mla -f examples/tasks.yml -i examples/inventory-sandbox.yml
+
+hosts:
+  sandbox:
+    ssh_address: 127.0.0.1
+    ssh_port: 2222
+    ssh_user: mla
+    ssh_key_file: ./sandbox/id_mla

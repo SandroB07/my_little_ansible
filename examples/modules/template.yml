@@ -1,0 +1,24 @@
+# template module — render a local Jinja2 template and upload the
+# result. Re-renders are idempotent: if the output would be byte-
+# identical to what is already on the host, the task reports OK.
+
+tasks:
+  - name: render nginx site config
+    module: template
+    become: true
+    params:
+      src: ./examples/default.conf.j2
+      dest: /etc/nginx/sites-enabled/default
+      vars:
+        server_name: example.com
+        root_dir: /var/www/public
+
+  - name: render a personalised motd
+    module: template
+    become: true
+    params:
+      src: ./examples/greeting.txt.j2
+      dest: /etc/motd
+      vars:
+        name: Sandro
+        hostname: webserver

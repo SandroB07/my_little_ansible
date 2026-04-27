@@ -1,0 +1,25 @@
+# command module — run an arbitrary shell command.
+# Always reports CHANGED on success (we cannot know whether the
+# command actually mutated the host) and FAILED on non-zero exit.
+
+tasks:
+  - name: show kernel info
+    module: command
+    params:
+      command: uname -a
+
+  - name: list root filesystem
+    module: command
+    params:
+      command: ls -la /
+
+  - name: write a timestamp to /tmp via /bin/sh
+    module: command
+    params:
+      command: "date +%s > /tmp/mla-timestamp"
+      shell: /bin/sh
+
+  - name: count entries in /etc
+    module: command
+    params:
+      command: "ls /etc | wc -l"

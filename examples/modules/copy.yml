@@ -1,0 +1,20 @@
+# copy module — upload local files or directories.
+# sha256 of every file is compared to the remote side, so a second
+# run with unchanged sources reports OK instead of CHANGED.
+
+tasks:
+  - name: copy a single file
+    module: copy
+    become: true
+    params:
+      src: ./examples/public/index.html
+      dest: /var/www/html/index.html
+      backup: true
+
+  - name: deploy a whole directory
+    module: copy
+    become: true
+    params:
+      src: ./examples/public
+      dest: /var/www/public
+      backup: true

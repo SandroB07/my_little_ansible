@@ -1,0 +1,18 @@
+# debug module — emit a message into the playbook log.
+# Always reports OK. Useful as checkpoints inside a longer playbook.
+
+tasks:
+  - name: announce start
+    module: debug
+    params:
+      msg: "starting provisioning run"
+
+  - name: checkpoint
+    module: debug
+    params:
+      msg: "prerequisites validated; moving on to deployment"
+
+  - name: announce end
+    module: debug
+    params:
+      msg: "run finished"

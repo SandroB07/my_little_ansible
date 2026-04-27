@@ -1,0 +1,27 @@
+# sysctl module — set a kernel parameter, optionally persisted
+# across reboots via /etc/sysctl.d/99-mla.conf.
+
+tasks:
+  - name: enable IPv4 forwarding (persistent)
+    module: sysctl
+    become: true
+    params:
+      attribute: net.ipv4.ip_forward
+      value: 1
+      permanent: true
+
+  - name: shrink swappiness (persistent)
+    module: sysctl
+    become: true
+    params:
+      attribute: vm.swappiness
+      value: 10
+      permanent: true
+
+  - name: bump max file descriptors (runtime only)
+    module: sysctl
+    become: true
+    params:
+      attribute: fs.file-max
+      value: 200000
+      permanent: false

@@ -1,0 +1,19 @@
+hosts:
+  # Auth mode 1: default SSH config (agent / ~/.ssh/id_*)
+  local-dev:
+    ssh_address: 127.0.0.1
+    ssh_port: 22
+
+  # Auth mode 2: private key file
+  webserver:
+    ssh_address: 192.168.1.22
+    ssh_port: 2222
+    ssh_user: ubuntu
+    ssh_key_file: ~/.ssh/id_rsa
+
+  # Auth mode 3: username + password
+  bastion:
+    ssh_address: 192.168.1.24
+    ssh_port: 22
+    ssh_user: admin
+    ssh_password: example-password

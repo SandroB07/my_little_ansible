@@ -1,0 +1,21 @@
+# git module — clone a repository, or fast-forward an existing
+# checkout to a requested version. Assumes `git` is installed on
+# the target host.
+
+tasks:
+  - name: clone a public repo to /opt
+    module: git
+    become: true
+    params:
+      repo: https://github.com/octocat/Hello-World.git
+      dest: /opt/hello-world
+      version: master
+      update: true
+
+  - name: clone without updating on re-runs
+    module: git
+    become: true
+    params:
+      repo: https://github.com/octocat/Spoon-Knife.git
+      dest: /opt/spoon-knife
+      update: false

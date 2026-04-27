@@ -1,0 +1,30 @@
+# lineinfile module — ensure an exact line is present (or absent)
+# in a file. Idempotent: a second run over the same input reports
+# OK.
+
+tasks:
+  - name: create /etc/motd with a banner
+    module: lineinfile
+    become: true
+    params:
+      path: /etc/motd
+      line: "Managed by MyLittleAnsible"
+      state: present
+      create: true
+
+  - name: add a search domain to resolv.conf.d
+    module: lineinfile
+    become: true
+    params:
+      path: /etc/resolv.conf.d/mla.conf
+      line: "search internal.example.com"
+      state: present
+      create: true
+
+  - name: remove a deprecated hosts entry
+    module: lineinfile
+    become: true
+    params:
+      path: /etc/hosts
+      line: "127.0.1.1 old-hostname"
+      state: absent

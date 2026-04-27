@@ -1,0 +1,32 @@
+# apt module — install or remove Debian/Ubuntu packages.
+# Idempotent: re-running reports OK when a package is already in
+# the requested state, CHANGED when apt-get actually had to act.
+
+tasks:
+  - name: install curl
+    module: apt
+    become: true
+    params:
+      name: curl
+      state: present
+
+  - name: install nginx
+    module: apt
+    become: true
+    params:
+      name: nginx
+      state: present
+
+  - name: install telnet
+    module: apt
+    become: true
+    params:
+      name: telnet
+      state: present
+
+  - name: remove telnet if present
+    module: apt
+    become: true
+    params:
+      name: telnet
+      state: absent

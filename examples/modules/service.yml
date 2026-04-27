@@ -1,0 +1,38 @@
+# service module — manage systemd units.
+# Supported states: started, stopped, restarted, enabled, disabled.
+
+tasks:
+  - name: enable cron at boot
+    module: service
+    become: true
+    params:
+      name: cron
+      state: enabled
+
+  - name: ensure cron is running now
+    module: service
+    become: true
+    params:
+      name: cron
+      state: started
+
+  - name: restart rsyslog unconditionally
+    module: service
+    become: true
+    params:
+      name: rsyslog
+      state: restarted
+
+  - name: stop and disable an unused service
+    module: service
+    become: true
+    params:
+      name: exim4
+      state: stopped
+
+  - name: disable it at boot too
+    module: service
+    become: true
+    params:
+      name: exim4
+      state: disabled
