@@ -11,44 +11,62 @@ plus several bonus modules).
 
 ## Table of contents
 
-1. [Features](#features)
-2. [Requirements](#requirements)
-3. [Installation](#installation)
-4. [Trying it out locally (Docker sandbox)](#trying-it-out-locally-docker-sandbox)
-5. [CLI usage](#cli-usage)
-6. [Inventory format](#inventory-format)
-7. [Playbook format](#playbook-format)
-8. [Module reference](#module-reference)
-9. [Output format](#output-format)
-10. [Exit codes](#exit-codes)
-11. [Development](#development)
+- [MyLittleAnsible](#mylittleansible)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+    - [Modules](#modules)
+    - [Playbook features](#playbook-features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Trying it out locally (Docker sandbox)](#trying-it-out-locally-docker-sandbox)
+    - [Start it](#start-it)
+    - [Use it](#use-it)
+    - [Stop it](#stop-it)
+    - [Troubleshooting](#troubleshooting)
+  - [CLI usage](#cli-usage)
+    - [Common invocations](#common-invocations)
+    - [Per-module example playbooks](#per-module-example-playbooks)
+  - [Inventory format](#inventory-format)
+  - [Playbook format](#playbook-format)
+    - [Minimal (flat list)](#minimal-flat-list)
+    - [With names, `become`, and handlers](#with-names-become-and-handlers)
+  - [Module reference](#module-reference)
+    - [`apt`](#apt)
+    - [`command`](#command)
+    - [`copy`](#copy)
+    - [`debug`](#debug)
+    - [`file`](#file)
+    - [`git`](#git)
+    - [`lineinfile`](#lineinfile)
+    - [`service`](#service)
+    - [`sysctl`](#sysctl)
+    - [`template`](#template)
+    - [`user`](#user)
+  - [Output format](#output-format)
+  - [Exit codes](#exit-codes)
+  - [Development](#development)
 
 ---
 
 ## Features
 
-### Required modules
+### Modules
 
-| Module      | Purpose                                     |
-|-------------|---------------------------------------------|
-| `apt`       | Install / remove Debian / Ubuntu packages   |
-| `command`   | Run an arbitrary shell command              |
-| `copy`      | Upload a file or a whole directory          |
-| `service`   | Manage systemd units                        |
-| `sysctl`    | Set kernel parameters (runtime + persisted) |
-| `template`  | Render a Jinja2 template and upload it      |
+| Module      | Purpose                                                   |
+|-------------|-----------------------------------------------------------|
+| `apt`       | Install / remove Debian / Ubuntu packages                 |
+| `command`   | Run an arbitrary shell command                            |
+| `copy`      | Upload a file or a whole directory                        |
+| `service`   | Manage systemd units                                      |
+| `sysctl`    | Set kernel parameters (runtime + persisted)               |
+| `template`  | Render a Jinja2 template and upload it                    |
+| `debug`     | Emit a log message from inside a playbook                 |
+| `file`      | Manage file / directory / symlink state, mode, owner      |
+| `git`       | Clone a repository or fast-forward it to a given version  |
+| `lineinfile`| Ensure an exact line is present / absent in a file        |
+| `user`      | Create / remove local user accounts                       |
 
-### Bonus modules
-
-| Module        | Purpose                                                   |
-|---------------|-----------------------------------------------------------|
-| `debug`       | Emit a log message from inside a playbook                 |
-| `file`        | Manage file / directory / symlink state, mode, owner      |
-| `git`         | Clone a repository or fast-forward it to a given version  |
-| `lineinfile`  | Ensure an exact line is present / absent in a file        |
-| `user`        | Create / remove local user accounts                       |
-
-### Bonus playbook features
+### Playbook features
 
 - **`name:`** — human-friendly task labels surfaced in the logs.
 - **`become: true`** — wraps the module's commands in `sudo -n -E bash -c`.
